@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">NewsTest</string>
+
+    <string name="drawer_open">开</string>
+    <string name="drawer_close">关</string>
+
+    <string name="news">新闻</string>
+    <string name="other">再想想</string>
+
+    <string name="action_settings">设置</string>
+
+
+
+
+
+    <string-array name="tabs">
+        <item>头条</item>
+        <item>cnBeta</item>
+        <item>知乎日报</item>
+        <item>果壳</item>
+    </string-array>
+
+
+</resources>
