@@ -81,5 +81,6 @@ public class NewsFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return tabs[position];
         }
+
     }
 }

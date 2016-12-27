@@ -6,4 +6,12 @@ package com.news.gemens.newstest.utils;
 
 public class Constant {
     public static String BASE_URL = "http://www.cnbeta.com";
+
+    public static String ZHIHU_LIST = "http://news-at.zhihu.com/api/4/news/latest";
+
+    public static String TOU_TIAO_LIST = "http://api.tianapi.com/social";
+    public static String TOU_TIAO_KEY = "c051ba4df3000c69e142bbf0b03ffa76";
+
+
+    public static String CNBETA_NEWS_LIST_TYPE = "all";
 }
