@@ -1,6 +1,7 @@
 package com.news.gemens.newstest.news.view;
 
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuList;
 
 /**
@@ -21,5 +22,11 @@ public interface NewsListFragmentView {
 
     void loadMoreZhiHuListSucceed(ZhiHuList zhiHuList);
     void loadMoreZhiHuLisFailed();
+
+    void touTiaoListRefreshSucceed(TouTiaoList touTiaoList);
+    void touTiaoListRefreshFailed();
+
+    void loadMoreTouTiaoListSucceed(TouTiaoList touTiaoList);
+    void loadMoreTouTiaoListFailed();
 
 }
