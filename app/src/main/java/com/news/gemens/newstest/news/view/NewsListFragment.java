@@ -14,13 +14,6 @@ import android.view.ViewGroup;
 import com.news.gemens.newstest.R;
 import com.news.gemens.newstest.news.adapter.NewsAdapter;
 
-/**
- * Description : 新闻Fragment
- * Author : lauren
- * Email  : lauren.liuling@gmail.com
- * Blog   : http://www.liuling123.com
- * Date   : 15/12/13
- */
 public class NewsListFragment extends Fragment {
 
     private static final String TAG = "NewsListFragment";
@@ -47,7 +40,6 @@ public class NewsListFragment extends Fragment {
     }
 
     private void init(View view){
-
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview_cnbeta);
         mRecyclerView.setHasFixedSize(true);
