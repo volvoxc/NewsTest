@@ -11,6 +11,9 @@ import com.news.gemens.newstest.bean.ZhiHuList;
 
 public interface NewsListFragmentView {
 
+    void showRefresh();
+    void hideRefresh();
+
     void cnBetaNewsListRefreshSucceed(CnBetaNewsList cnBetaNewsList);
     void cnBetaNewsListRefreshFailed();
 

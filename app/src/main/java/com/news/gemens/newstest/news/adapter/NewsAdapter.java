@@ -22,11 +22,15 @@ import java.util.List;
  * Created by Gemens on 2016/12/26/0026.
  */
 
-public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
+public class NewsAdapter<T> extends RecyclerView.Adapter {
 
     private Context context;
     private List<T> newsList;
     private String type;
+
+    private boolean isShowFooter = false;
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOTER = 1;
 
     public NewsAdapter(Context context, List<T> newsList, String type) {
         this.context = context;
@@ -35,28 +39,62 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
     }
 
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.news_list_item, parent, false);
-        return new Holder(view);
+        if (viewType == TYPE_ITEM) {
+            View view = LayoutInflater.from(context).inflate(R.layout.news_list_item, parent, false);
+            return new Holder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_footer, parent, false);
+            return new FooterViewHolder(view);
+        }
     }
+
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        int begin = isShowFooter ? 1 : 0;
+        if (newsList == null) {
+            return begin;
+        }
+        return newsList.size() + begin;
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public int getItemViewType(int position) {
+        if (!isShowFooter) {
+            return TYPE_ITEM;
+        } else {
+            if (position + 1 == getItemCount()) {
+                return TYPE_FOOTER;
+            } else {
+                return TYPE_ITEM;
+            }
+        }
+    }
+
+    public void setIsShowFooter(boolean isShowFooter) {
+        this.isShowFooter = isShowFooter;
+    }
+
+    public boolean isShowFooter() {
+        return isShowFooter;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (type) {
             case "头条":
-                setTouTiaoData(holder,position);
+                if (holder instanceof NewsAdapter.Holder)
+                    setTouTiaoData(holder,position);
                 break;
             case "cnBeta":
-                setCnBetaData(holder, position);
+                if (holder instanceof NewsAdapter.Holder)
+                    setCnBetaData(holder, position);
                 break;
             case "知乎日报":
-                setZhiHuData(holder, position);
+                if (holder instanceof NewsAdapter.Holder)
+                    setZhiHuData(holder, position);
                 break;
             case "果壳精选":
                 setGuoKeData(holder,position);
@@ -65,53 +103,53 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
 
     }
 
-    private void setCnBetaData(Holder holder, int position) {
-        holder.cnBetaTitle.setVisibility(View.VISIBLE);
-        holder.cnBetaDesc.setVisibility(View.VISIBLE);
-        holder.newsDate.setVisibility(View.VISIBLE);
-        holder.zhihuTitle.setVisibility(View.GONE);
+    private void setCnBetaData(RecyclerView.ViewHolder holder, int position) {
+        ((Holder)holder).cnBetaTitle.setVisibility(View.VISIBLE);
+        ((Holder)holder).cnBetaDesc.setVisibility(View.VISIBLE);
+        ((Holder)holder).newsDate.setVisibility(View.VISIBLE);
+        ((Holder)holder).zhihuTitle.setVisibility(View.GONE);
 
         CnBetaNewsItem cnBetaNewsItem = (CnBetaNewsItem) newsList.get(position);
-        Glide.with(context).load(cnBetaNewsItem.getThumb()).into(holder.newsImag);
-        holder.cnBetaTitle.setText(cnBetaNewsItem.getTitle());
+        Glide.with(context).load(cnBetaNewsItem.getThumb()).into(((Holder)holder).newsImag);
+        ((Holder)holder).cnBetaTitle.setText(cnBetaNewsItem.getTitle());
         StringBuilder sb = new StringBuilder(Html.fromHtml(cnBetaNewsItem.getHometext().replaceAll("<.*?>|[\\r|\\n]", "")));
-        holder.cnBetaDesc.setText("        " + sb);
-        holder.newsDate.setText(cnBetaNewsItem.getInputtime());
+        ((Holder)holder).cnBetaDesc.setText("        " + sb);
+        ((Holder)holder).newsDate.setText(cnBetaNewsItem.getInputtime());
     }
 
-    private void setZhiHuData(Holder holder, int position) {
-        holder.cnBetaTitle.setVisibility(View.GONE);
-        holder.cnBetaDesc.setVisibility(View.GONE);
-        holder.newsDate.setVisibility(View.GONE);
-        holder.zhihuTitle.setVisibility(View.VISIBLE);
+    private void setZhiHuData(RecyclerView.ViewHolder holder, int position) {
+        ((Holder)holder).cnBetaTitle.setVisibility(View.GONE);
+        ((Holder)holder).cnBetaDesc.setVisibility(View.GONE);
+        ((Holder)holder).newsDate.setVisibility(View.GONE);
+        ((Holder)holder).zhihuTitle.setVisibility(View.VISIBLE);
 
         ZhiHuItem zhiHuItem = (ZhiHuItem) newsList.get(position);
-        Glide.with(context).load(zhiHuItem.getImages().get(0)).into(holder.newsImag);
-        holder.zhihuTitle.setText(zhiHuItem.getTitle());
+        Glide.with(context).load(zhiHuItem.getImages().get(0)).into(((Holder)holder).newsImag);
+        ((Holder)holder).zhihuTitle.setText(zhiHuItem.getTitle());
     }
 
-    private void setTouTiaoData(Holder holder,int position) {
-        holder.cnBetaTitle.setVisibility(View.GONE);
-        holder.cnBetaDesc.setVisibility(View.GONE);
-        holder.newsDate.setVisibility(View.VISIBLE);
-        holder.zhihuTitle.setVisibility(View.VISIBLE);
+    private void setTouTiaoData(RecyclerView.ViewHolder holder,int position) {
+        ((Holder)holder).cnBetaTitle.setVisibility(View.GONE);
+        ((Holder)holder).cnBetaDesc.setVisibility(View.GONE);
+        ((Holder)holder).newsDate.setVisibility(View.VISIBLE);
+        ((Holder)holder).zhihuTitle.setVisibility(View.VISIBLE);
 
         TouTiaoItem touTiaoItem = (TouTiaoItem) newsList.get(position);
-        Glide.with(context).load(touTiaoItem.getPicUrl()).centerCrop().into(holder.newsImag);
-        holder.zhihuTitle.setText(touTiaoItem.getTitle());
-        holder.newsDate.setText(touTiaoItem.getCtime());
+        Glide.with(context).load(touTiaoItem.getPicUrl()).centerCrop().into(((Holder)holder).newsImag);
+        ((Holder)holder).zhihuTitle.setText(touTiaoItem.getTitle());
+        ((Holder)holder).newsDate.setText(touTiaoItem.getCtime());
     }
 
-    private void setGuoKeData(Holder holder,int position) {
-        holder.cnBetaTitle.setVisibility(View.VISIBLE);
-        holder.cnBetaDesc.setVisibility(View.VISIBLE);
-        holder.newsDate.setVisibility(View.GONE);
-        holder.zhihuTitle.setVisibility(View.GONE);
+    private void setGuoKeData(RecyclerView.ViewHolder holder,int position) {
+        ((Holder)holder).cnBetaTitle.setVisibility(View.VISIBLE);
+        ((Holder)holder).cnBetaDesc.setVisibility(View.VISIBLE);
+        ((Holder)holder).newsDate.setVisibility(View.GONE);
+        ((Holder)holder).zhihuTitle.setVisibility(View.GONE);
 
         GuoKeItem guoKeItem = (GuoKeItem) newsList.get(position);
-        Glide.with(context).load(guoKeItem.getHeadline_img()).centerCrop().into(holder.newsImag);
-        holder.cnBetaTitle.setText(guoKeItem.getTitle());
-        holder.cnBetaDesc.setText("        " + guoKeItem.getSummary());
+        Glide.with(context).load(guoKeItem.getHeadline_img()).centerCrop().into(((Holder)holder).newsImag);
+        ((Holder)holder).cnBetaTitle.setText(guoKeItem.getTitle());
+        ((Holder)holder).cnBetaDesc.setText("        " + guoKeItem.getSummary());
     }
 
     static class Holder extends RecyclerView.ViewHolder {
@@ -132,4 +170,12 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
             zhihuTitle = (TextView) view.findViewById(R.id.tv_zhihu_title);
         }
     }
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        public FooterViewHolder(View view) {
+            super(view);
+        }
+    }
+
 }

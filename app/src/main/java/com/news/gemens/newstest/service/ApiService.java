@@ -27,7 +27,7 @@ public interface ApiService {
             "X-Requested-With:XMLHttpRequest"
     })
     @GET("/more")
-    Call<CnBetaNewsList> getNewslistByPage(@QueryMap Map<String, Object> params);
+    Call<CnBetaNewsList> getCnBetaList(@QueryMap Map<String, Object> params);
 
 
     //知乎日报首页列表数据
@@ -36,7 +36,7 @@ public interface ApiService {
 
     //头条新闻列表数据
     @GET()
-    Call<TouTiaoList> getTouTiaoData(@Url String url, @Query("key") String key,@Query("num") int num);
+    Call<TouTiaoList> getTouTiaoData(@Url String url, @Query("key") String key,@Query("num") int num,@Query("page") int page);
 
     //果壳列表数据
     @GET()

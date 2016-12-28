@@ -31,7 +31,7 @@ public class NewsModel {
     private Call<GuokeList> guoKeListCall;
 
     public void getCnBetaNewsList(Map<String,Object> params, final NewsCallBack<CnBetaNewsList> callback) {
-        cnBetaNewsListCall = NetWorkUtil.getNetWorkUtil().getApiService().getNewslistByPage(params);
+        cnBetaNewsListCall = NetWorkUtil.getNetWorkUtil().getApiService().getCnBetaList(params);
         cnBetaNewsListCall.enqueue(new Callback<CnBetaNewsList>() {
             @Override
             public void onResponse(Call<CnBetaNewsList> call, Response<CnBetaNewsList> response) {
@@ -60,8 +60,8 @@ public class NewsModel {
         });
     }
 
-    public void getTouTiaoList(String url,final int num,final NewsCallBack<TouTiaoList> callBack) {
-        touTiaoListCall = NetWorkUtil.getNetWorkUtil().getApiService().getTouTiaoData(url, Constant.TOU_TIAO_KEY,num);
+    public void getTouTiaoList(String url,final int num, final int page,final NewsCallBack<TouTiaoList> callBack) {
+        touTiaoListCall = NetWorkUtil.getNetWorkUtil().getApiService().getTouTiaoData(url, Constant.TOU_TIAO_KEY,num,page);
         touTiaoListCall.enqueue(new Callback<TouTiaoList>() {
             @Override
             public void onResponse(Call<TouTiaoList> call, Response<TouTiaoList> response) {
