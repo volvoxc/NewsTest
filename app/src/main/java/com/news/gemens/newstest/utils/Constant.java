@@ -14,4 +14,6 @@ public class Constant {
 
 
     public static String CNBETA_NEWS_LIST_TYPE = "all";
+
+    public static int TOU_TIAO_PAGE_NUM = 10;
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.news.gemens.newstest.R;
 import com.news.gemens.newstest.bean.CnBetaNewsItem;
+import com.news.gemens.newstest.bean.TouTiaoItem;
 import com.news.gemens.newstest.bean.ZhiHuItem;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
     public void onBindViewHolder(Holder holder, int position) {
         switch (type) {
             case "头条":
+                setTouTiaoData(holder,position);
                 break;
             case "cnBeta":
                 setCnBetaData(holder, position);
@@ -64,6 +66,7 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
     private void setCnBetaData(Holder holder, int position) {
         holder.cnBetaTitle.setVisibility(View.VISIBLE);
         holder.cnBetaDesc.setVisibility(View.VISIBLE);
+        holder.newsDate.setVisibility(View.VISIBLE);
         holder.zhihuTitle.setVisibility(View.GONE);
 
         CnBetaNewsItem cnBetaNewsItem = (CnBetaNewsItem) newsList.get(position);
@@ -77,11 +80,24 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
     private void setZhiHuData(Holder holder, int position) {
         holder.cnBetaTitle.setVisibility(View.GONE);
         holder.cnBetaDesc.setVisibility(View.GONE);
+        holder.newsDate.setVisibility(View.GONE);
         holder.zhihuTitle.setVisibility(View.VISIBLE);
 
         ZhiHuItem zhiHuItem = (ZhiHuItem) newsList.get(position);
         Glide.with(context).load(zhiHuItem.getImages().get(0)).into(holder.newsImag);
         holder.zhihuTitle.setText(zhiHuItem.getTitle());
+    }
+
+    private void setTouTiaoData(Holder holder,int position) {
+        holder.cnBetaTitle.setVisibility(View.GONE);
+        holder.cnBetaDesc.setVisibility(View.GONE);
+        holder.newsDate.setVisibility(View.VISIBLE);
+        holder.zhihuTitle.setVisibility(View.VISIBLE);
+
+        TouTiaoItem touTiaoItem = (TouTiaoItem) newsList.get(position);
+        Glide.with(context).load(touTiaoItem.getPicUrl()).centerCrop().into(holder.newsImag);
+        holder.zhihuTitle.setText(touTiaoItem.getTitle());
+        holder.newsDate.setText(touTiaoItem.getCtime());
     }
 
     static class Holder extends RecyclerView.ViewHolder {

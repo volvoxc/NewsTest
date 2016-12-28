@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.news.gemens.newstest.R;
 import com.news.gemens.newstest.bean.CnBetaNewsItem;
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.TouTiaoItem;
+import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuItem;
 import com.news.gemens.newstest.bean.ZhiHuList;
 import com.news.gemens.newstest.news.adapter.NewsAdapter;
@@ -25,10 +27,11 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
     private static final String TAG = "NewsListFragment";
 
     private RecyclerView recyclerView;
-    private NewsAdapter cnBetaAdapter,zhiHuAdapter;
+    private NewsAdapter cnBetaAdapter,zhiHuAdapter,touTiaoAdapter;
 
     private List<CnBetaNewsItem> cnBetaNewsItems = new ArrayList<>();
     private List<ZhiHuItem> zhiHuItems = new ArrayList<>();
+    private List<TouTiaoItem> touTiaoItems = new ArrayList<>();
 
     private View view;
     private NewsPresenter newsPresenter;
@@ -53,6 +56,9 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
         newsPresenter = new NewsPresenter(this);
         switch (type) {
             case "头条":
+                if (touTiaoAdapter == null) touTiaoAdapter = new NewsAdapter(getActivity(),touTiaoItems,"头条");
+                recyclerView.setAdapter(touTiaoAdapter);
+                newsPresenter.getTouTiaoList();
                 break;
             case "cnBeta":
                 if (cnBetaAdapter == null) cnBetaAdapter = new NewsAdapter(getActivity(),cnBetaNewsItems,"cnBeta");
@@ -106,6 +112,28 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
 
     @Override
     public void loadMoreZhiHuLisFailed() {
+
+    }
+
+    @Override
+    public void touTiaoListRefreshSucceed(TouTiaoList touTiaoList) {
+        touTiaoItems.clear();
+        touTiaoItems.addAll(touTiaoList.getNewslist());
+        touTiaoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void touTiaoListRefreshFailed() {
+
+    }
+
+    @Override
+    public void loadMoreTouTiaoListSucceed(TouTiaoList touTiaoList) {
+
+    }
+
+    @Override
+    public void loadMoreTouTiaoListFailed() {
 
     }
 }

@@ -76,16 +76,16 @@ public class NewsPresenter {
         });
     }
 
-    public void getTouTiaoList(int num) {
-        newsModel.getTouTiaoList(Constant.TOU_TIAO_LIST, num, new NewsModel.NewsCallBack<TouTiaoList>() {
+    public void getTouTiaoList() {
+        newsModel.getTouTiaoList(Constant.TOU_TIAO_LIST, Constant.TOU_TIAO_PAGE_NUM, new NewsModel.NewsCallBack<TouTiaoList>() {
             @Override
             public void onSuccess(TouTiaoList touTiaoList) {
-
+                view.touTiaoListRefreshSucceed(touTiaoList);
             }
 
             @Override
             public void onFailed(Throwable t) {
-
+                view.touTiaoListRefreshFailed();
             }
         });
     }
