@@ -132,6 +132,18 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+        if (touTiaoAdapter != null && touTiaoAdapter.isShowFooter()) {
+            touTiaoAdapter.setIsShowFooter(false);
+            touTiaoAdapter.notifyDataSetChanged();
+        }
+        if (cnBetaAdapter != null && cnBetaAdapter.isShowFooter()) {
+            cnBetaAdapter.setIsShowFooter(false);
+            cnBetaAdapter.notifyDataSetChanged();
+        }
+        if (zhiHuAdapter != null && zhiHuAdapter.isShowFooter()) {
+            zhiHuAdapter.setIsShowFooter(false);
+            zhiHuAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
