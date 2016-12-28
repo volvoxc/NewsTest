@@ -12,6 +12,8 @@ public class Constant {
     public static String TOU_TIAO_LIST = "http://api.tianapi.com/social";
     public static String TOU_TIAO_KEY = "c051ba4df3000c69e142bbf0b03ffa76";
 
+    public static String GUO_KE_LIST = "http://apis.guokr.com/handpick/article.json?retrieve_type=by_since&category=all&limit=25&ad=1";
+
 
     public static String CNBETA_NEWS_LIST_TYPE = "all";
 

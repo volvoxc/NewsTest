@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.news.gemens.newstest.R;
 import com.news.gemens.newstest.bean.CnBetaNewsItem;
+import com.news.gemens.newstest.bean.GuoKeItem;
 import com.news.gemens.newstest.bean.TouTiaoItem;
 import com.news.gemens.newstest.bean.ZhiHuItem;
 
@@ -57,7 +58,8 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
             case "知乎日报":
                 setZhiHuData(holder, position);
                 break;
-            case "果壳":
+            case "果壳精选":
+                setGuoKeData(holder,position);
                 break;
         }
 
@@ -73,7 +75,7 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
         Glide.with(context).load(cnBetaNewsItem.getThumb()).into(holder.newsImag);
         holder.cnBetaTitle.setText(cnBetaNewsItem.getTitle());
         StringBuilder sb = new StringBuilder(Html.fromHtml(cnBetaNewsItem.getHometext().replaceAll("<.*?>|[\\r|\\n]", "")));
-        holder.cnBetaDesc.setText(sb);
+        holder.cnBetaDesc.setText("        " + sb);
         holder.newsDate.setText(cnBetaNewsItem.getInputtime());
     }
 
@@ -98,6 +100,18 @@ public class NewsAdapter<T> extends RecyclerView.Adapter<NewsAdapter.Holder> {
         Glide.with(context).load(touTiaoItem.getPicUrl()).centerCrop().into(holder.newsImag);
         holder.zhihuTitle.setText(touTiaoItem.getTitle());
         holder.newsDate.setText(touTiaoItem.getCtime());
+    }
+
+    private void setGuoKeData(Holder holder,int position) {
+        holder.cnBetaTitle.setVisibility(View.VISIBLE);
+        holder.cnBetaDesc.setVisibility(View.VISIBLE);
+        holder.newsDate.setVisibility(View.GONE);
+        holder.zhihuTitle.setVisibility(View.GONE);
+
+        GuoKeItem guoKeItem = (GuoKeItem) newsList.get(position);
+        Glide.with(context).load(guoKeItem.getHeadline_img()).centerCrop().into(holder.newsImag);
+        holder.cnBetaTitle.setText(guoKeItem.getTitle());
+        holder.cnBetaDesc.setText("        " + guoKeItem.getSummary());
     }
 
     static class Holder extends RecyclerView.ViewHolder {

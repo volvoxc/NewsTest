@@ -1,6 +1,7 @@
 package com.news.gemens.newstest.news.model;
 
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.GuokeList;
 import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuList;
 import com.news.gemens.newstest.utils.Constant;
@@ -27,6 +28,7 @@ public class NewsModel {
     private Call<CnBetaNewsList> cnBetaNewsListCall;
     private Call<ZhiHuList> zhiHuListCall;
     private Call<TouTiaoList> touTiaoListCall;
+    private Call<GuokeList> guoKeListCall;
 
     public void getCnBetaNewsList(Map<String,Object> params, final NewsCallBack<CnBetaNewsList> callback) {
         cnBetaNewsListCall = NetWorkUtil.getNetWorkUtil().getApiService().getNewslistByPage(params);
@@ -71,5 +73,21 @@ public class NewsModel {
                 callBack.onFailed(t);
             }
         });
+    }
+
+    public void getGuoKeList(final NewsCallBack<GuokeList> callBack) {
+        guoKeListCall = NetWorkUtil.getNetWorkUtil().getApiService().getGuoKeList(Constant.GUO_KE_LIST);
+        guoKeListCall.enqueue(new Callback<GuokeList>() {
+            @Override
+            public void onResponse(Call<GuokeList> call, Response<GuokeList> response) {
+                callBack.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GuokeList> call, Throwable t) {
+                callBack.onFailed(t);
+            }
+        });
+
     }
 }

@@ -1,6 +1,7 @@
 package com.news.gemens.newstest.news.presenter;
 
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.GuokeList;
 import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuList;
 import com.news.gemens.newstest.news.model.NewsModel;
@@ -86,6 +87,20 @@ public class NewsPresenter {
             @Override
             public void onFailed(Throwable t) {
                 view.touTiaoListRefreshFailed();
+            }
+        });
+    }
+
+    public void getGuoKeList() {
+        newsModel.getGuoKeList(new NewsModel.NewsCallBack<GuokeList>() {
+            @Override
+            public void onSuccess(GuokeList guokeList) {
+                view.guoKeListRefreshSucceed(guokeList);
+            }
+
+            @Override
+            public void onFailed(Throwable t) {
+                view.guoKeListRefreshFailed();
             }
         });
     }

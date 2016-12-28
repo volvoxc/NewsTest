@@ -1,6 +1,7 @@
 package com.news.gemens.newstest.service;
 
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.GuokeList;
 import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuList;
 
@@ -36,4 +37,8 @@ public interface ApiService {
     //头条新闻列表数据
     @GET()
     Call<TouTiaoList> getTouTiaoData(@Url String url, @Query("key") String key,@Query("num") int num);
+
+    //果壳列表数据
+    @GET()
+    Call<GuokeList> getGuoKeList(@Url String url);
 }

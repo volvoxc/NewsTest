@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.news.gemens.newstest.R;
 import com.news.gemens.newstest.bean.CnBetaNewsItem;
 import com.news.gemens.newstest.bean.CnBetaNewsList;
+import com.news.gemens.newstest.bean.GuoKeItem;
+import com.news.gemens.newstest.bean.GuokeList;
 import com.news.gemens.newstest.bean.TouTiaoItem;
 import com.news.gemens.newstest.bean.TouTiaoList;
 import com.news.gemens.newstest.bean.ZhiHuItem;
@@ -27,11 +29,12 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
     private static final String TAG = "NewsListFragment";
 
     private RecyclerView recyclerView;
-    private NewsAdapter cnBetaAdapter,zhiHuAdapter,touTiaoAdapter;
+    private NewsAdapter cnBetaAdapter,zhiHuAdapter,touTiaoAdapter,guoKeAdapter;
 
     private List<CnBetaNewsItem> cnBetaNewsItems = new ArrayList<>();
     private List<ZhiHuItem> zhiHuItems = new ArrayList<>();
     private List<TouTiaoItem> touTiaoItems = new ArrayList<>();
+    private List<GuoKeItem> guoKeItems = new ArrayList<>();
 
     private View view;
     private NewsPresenter newsPresenter;
@@ -70,7 +73,10 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
                 recyclerView.setAdapter(zhiHuAdapter);
                 newsPresenter.getZhiHuList();
                 break;
-            case "果壳":
+            case "果壳精选":
+                if (guoKeAdapter == null) guoKeAdapter = new NewsAdapter(getActivity(),guoKeItems,"果壳精选");
+                recyclerView.setAdapter(guoKeAdapter);
+                newsPresenter.getGuoKeList();
                 break;
         }
     }
@@ -107,12 +113,10 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
 
     @Override
     public void loadMoreZhiHuListSucceed(ZhiHuList zhiHuList) {
-
     }
 
     @Override
     public void loadMoreZhiHuLisFailed() {
-
     }
 
     @Override
@@ -124,16 +128,24 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView{
 
     @Override
     public void touTiaoListRefreshFailed() {
-
     }
 
     @Override
     public void loadMoreTouTiaoListSucceed(TouTiaoList touTiaoList) {
-
     }
 
     @Override
     public void loadMoreTouTiaoListFailed() {
+    }
 
+    @Override
+    public void guoKeListRefreshSucceed(GuokeList guokeList) {
+        guoKeItems.clear();
+        guoKeItems.addAll(guokeList.getResult());
+        guoKeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void guoKeListRefreshFailed() {
     }
 }
