@@ -8,7 +8,7 @@ public class Constant {
     public static String BASE_URL = "http://www.cnbeta.com";
 
     public static String ZHIHU_LIST = "http://news-at.zhihu.com/api/4/news/latest";
-    public static String ZHIHU_CONTENT = "http://news-at.zhihu.com/api/4/news/";
+    public static String ZHIHU_CONTENT = "http://daily.zhihu.com/story/";
     public static String ZHIHU_LIST_BEFORE = "http://news-at.zhihu.com/api/4/news/before/";
 
     public static String GUO_KE_LIST = "http://apis.guokr.com/handpick/article.json?retrieve_type=by_since&category=all&limit=25&ad=1";

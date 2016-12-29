@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -291,6 +292,8 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
             super.onScrolled(recyclerView, dx, dy);
 
             if ("头条".equals(type)) {
+                Log.d(TAG, "onScrolled: touTiaoAdapter.getItemCount() = " + touTiaoAdapter.getItemCount() );
+                Log.d(TAG, "onScrolled: lastVisibleItem + 1 = " + lastVisibleItem + 1);
                 if (!touTiaoAdapter.isShowFooter()) {
                     if(touTiaoAdapter.getItemCount() != lastVisibleItem + 1) {
                         touTiaoAdapter.setIsShowFooter(true);
