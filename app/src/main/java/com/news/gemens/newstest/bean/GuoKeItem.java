@@ -9,6 +9,15 @@ public class GuoKeItem {
     private String title;
     private String headline_img;
     private String summary;
+    private String link;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public String getSummary() {
         return summary;

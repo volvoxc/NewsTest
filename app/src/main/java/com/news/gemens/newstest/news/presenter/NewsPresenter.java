@@ -24,7 +24,7 @@ public class NewsPresenter {
     private Map<String,Object> cnBetaNewsListParams;
     private int cnBetaNewsListPage = 1;
     private int touTiaoListPage = 1;
-    private int zhihuListPage = 0;
+    private int zhihuListPage = 1;
     private NewsListFragment view;
 
     public NewsPresenter (NewsListFragment view) {
@@ -35,6 +35,7 @@ public class NewsPresenter {
     }
 
     public void refreshCnBetaNewsList() {
+        cnBetaNewsListPage = 1;
         view.showRefresh();
         cnBetaNewsListParams.put("page",String.valueOf(cnBetaNewsListPage));
         cnBetaNewsListParams.put("_", System.currentTimeMillis() + "");
@@ -42,7 +43,7 @@ public class NewsPresenter {
     }
 
     public void getMoreCnBetaNewsList() {
-        cnBetaNewsListParams.put("page",String.valueOf(cnBetaNewsListPage));
+        cnBetaNewsListParams.put("page",String.valueOf(++cnBetaNewsListPage));
         cnBetaNewsListParams.put("_", System.currentTimeMillis() + "");
         getCnBetaNewsList(cnBetaNewsListParams,false);
     }
@@ -56,7 +57,6 @@ public class NewsPresenter {
                     view.cnBetaNewsListRefreshSucceed(cnBetaNewsList);
                 }else {
                     view.loadMoreCnBetaNewsListSucceed(cnBetaNewsList);
-                    cnBetaNewsListPage ++;
                 }
             }
 
@@ -67,18 +67,20 @@ public class NewsPresenter {
                     view.cnBetaNewsListRefreshFailed();
                 } else {
                     view.loadMoreCnBetaNewsListFailed();
+                    --cnBetaNewsListPage;
                 }
             }
         });
     }
 
     public void refreshZhiHuList() {
+        zhihuListPage = 1;
         view.showRefresh();
         getZhiHuList(Constant.ZHIHU_LIST,true);
     }
 
     public void getMoreZhiHuList() {
-        getZhiHuList(Constant.ZHIHU_LIST_BEFORE + DateUtil.getDateBeforeByDay(zhihuListPage++),false);
+        getZhiHuList(Constant.ZHIHU_LIST_BEFORE + DateUtil.getDateBeforeByDay(++zhihuListPage),false);
     }
 
     private void getZhiHuList(String url, final boolean isRefresh) {
@@ -100,6 +102,7 @@ public class NewsPresenter {
                     view.zhiHuListRefreshFailed();
                 } else {
                     view.loadMoreZhiHuLisFailed();
+                    --zhihuListPage;
                 }
 
             }
@@ -107,12 +110,13 @@ public class NewsPresenter {
     }
 
     public void refreshTouTiaoList() {
+        touTiaoListPage = 1;
         view.showRefresh();
-        getTouTiaoList(Constant.TOU_TIAO_LIST,Constant.TOU_TIAO_PAGE_NUM,1,true);
+        getTouTiaoList(Constant.TOU_TIAO_LIST,Constant.TOU_TIAO_PAGE_NUM,touTiaoListPage,true);
     }
 
     public void getMoreTouTiaoList() {
-        getTouTiaoList(Constant.TOU_TIAO_LIST,Constant.TOU_TIAO_PAGE_NUM,touTiaoListPage,false);
+        getTouTiaoList(Constant.TOU_TIAO_LIST,Constant.TOU_TIAO_PAGE_NUM,++touTiaoListPage,false);
     }
 
     private void getTouTiaoList(String url, int num, int page, final boolean isResfresh) {
@@ -124,7 +128,6 @@ public class NewsPresenter {
                     view.touTiaoListRefreshSucceed(touTiaoList);
                 } else {
                     view.loadMoreTouTiaoListSucceed(touTiaoList);
-                    touTiaoListPage ++;
                 }
             }
 
@@ -135,6 +138,7 @@ public class NewsPresenter {
                     view.touTiaoListRefreshFailed();
                 } else {
                     view.loadMoreTouTiaoListFailed();
+                    --touTiaoListPage;
                 }
             }
         });

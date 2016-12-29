@@ -62,13 +62,12 @@ public class NewsModel {
         });
     }
 
-    public void getTouTiaoList(String url,final int num, final int page,final NewsCallBack<TouTiaoList> callBack) {
+    public void getTouTiaoList(final String url,final int num, final int page,final NewsCallBack<TouTiaoList> callBack) {
         touTiaoListCall = NetWorkUtil.getNetWorkUtil().getApiService().getTouTiaoData(url, Constant.TOU_TIAO_KEY,num,page);
         touTiaoListCall.enqueue(new Callback<TouTiaoList>() {
             @Override
             public void onResponse(Call<TouTiaoList> call, Response<TouTiaoList> response) {
-                Log.d(TAG, "onResponse: " + response.body());
-                //callBack.onSuccess(response.body());
+                callBack.onSuccess(response.body());
             }
 
             @Override

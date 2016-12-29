@@ -1,5 +1,6 @@
 package com.news.gemens.newstest.news.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,11 +22,13 @@ import com.news.gemens.newstest.bean.ZhiHuItem;
 import com.news.gemens.newstest.bean.ZhiHuList;
 import com.news.gemens.newstest.news.adapter.NewsAdapter;
 import com.news.gemens.newstest.news.presenter.NewsPresenter;
+import com.news.gemens.newstest.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsListFragment extends Fragment implements NewsListFragmentView,SwipeRefreshLayout.OnRefreshListener {
+public class NewsListFragment extends Fragment implements NewsListFragmentView,SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.OnItemClickListener{
 
     private static final String TAG = "NewsListFragment";
 
@@ -68,28 +71,28 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
         switch (type) {
             case "头条":
                 if (touTiaoAdapter == null)
-                    touTiaoAdapter = new NewsAdapter(getActivity(),touTiaoItems,"头条");
+                    touTiaoAdapter = new NewsAdapter(getActivity(),touTiaoItems,"头条",this);
                 recyclerView.setAdapter(touTiaoAdapter);
                 newsPresenter.refreshTouTiaoList();
                 recyclerView.addOnScrollListener(new ScrollListener("头条"));
                 break;
             case "cnBeta":
                 if (cnBetaAdapter == null)
-                    cnBetaAdapter = new NewsAdapter(getActivity(),cnBetaNewsItems,"cnBeta");
+                    cnBetaAdapter = new NewsAdapter(getActivity(),cnBetaNewsItems,"cnBeta",this);
                 recyclerView.setAdapter(cnBetaAdapter);
                 newsPresenter.refreshCnBetaNewsList();
                 recyclerView.addOnScrollListener(new ScrollListener("cnBeta"));
                 break;
             case "知乎日报":
                 if (zhiHuAdapter == null)
-                    zhiHuAdapter = new NewsAdapter(getActivity(),zhiHuItems,"知乎日报");
+                    zhiHuAdapter = new NewsAdapter(getActivity(),zhiHuItems,"知乎日报",this);
                 recyclerView.setAdapter(zhiHuAdapter);
                 newsPresenter.refreshZhiHuList();
                 recyclerView.addOnScrollListener(new ScrollListener("知乎日报"));
                 break;
             case "果壳精选":
                 if (guoKeAdapter == null)
-                    guoKeAdapter = new NewsAdapter(getActivity(),guoKeItems,"果壳精选");
+                    guoKeAdapter = new NewsAdapter(getActivity(),guoKeItems,"果壳精选",this);
                 recyclerView.setAdapter(guoKeAdapter);
                 newsPresenter.getGuoKeList();
                 break;
@@ -220,6 +223,41 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
 
     @Override
     public void guoKeListRefreshFailed() {
+    }
+
+    @Override
+    public void onItemClick(String type, int position) {
+        Intent intent = new Intent(getActivity(),NewsDetailActivity.class);
+        switch (type) {
+            case "头条":
+                String touTiaoUrl = touTiaoItems.get(position).getUrl();
+                intent.putExtra("newsUrl",touTiaoUrl);
+                intent.putExtra("title",touTiaoItems.get(position).getTitle());
+                intent.putExtra("pic",touTiaoItems.get(position).getPicUrl());
+                startActivity(intent);
+                break;
+            case "cnBeta":
+                String cnBetaUrl = "http://www.cnbeta.com" + cnBetaNewsItems.get(position).getUrl_show();
+                intent.putExtra("newsUrl",cnBetaUrl);
+                intent.putExtra("title",cnBetaNewsItems.get(position).getTitle());
+                intent.putExtra("pic",cnBetaNewsItems.get(position).getThumb());
+                startActivity(intent);
+                break;
+            case "知乎日报":
+                String zhiHuUrl = Constant.ZHIHU_CONTENT + zhiHuItems.get(position).getId();
+                intent.putExtra("newsUrl",zhiHuUrl);
+                intent.putExtra("title",zhiHuItems.get(position).getTitle());
+                intent.putExtra("pic",zhiHuItems.get(position).getImages().get(0));
+                startActivity(intent);
+                break;
+            case "果壳精选":
+                String guoKeUrl = guoKeItems.get(position).getLink();
+                intent.putExtra("newsUrl",guoKeUrl);
+                intent.putExtra("title",guoKeItems.get(position).getTitle());
+                intent.putExtra("pic",guoKeItems.get(position).getHeadline_img());
+                startActivity(intent);
+                break;
+        }
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {

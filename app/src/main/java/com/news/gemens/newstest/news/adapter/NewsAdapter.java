@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,11 +32,18 @@ public class NewsAdapter<T> extends RecyclerView.Adapter {
     private boolean isShowFooter = false;
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
+    private OnItemClickListener listener;
 
-    public NewsAdapter(Context context, List<T> newsList, String type) {
+    public interface OnItemClickListener {
+        void onItemClick(String type,int position);
+    }
+
+
+    public NewsAdapter(Context context, List<T> newsList, String type,OnItemClickListener listener) {
         this.context = context;
         this.newsList = newsList;
         this.type = type;
+        this.listener = listener;
     }
 
     @Override
@@ -43,7 +51,7 @@ public class NewsAdapter<T> extends RecyclerView.Adapter {
 
         if (viewType == TYPE_ITEM) {
             View view = LayoutInflater.from(context).inflate(R.layout.news_list_item, parent, false);
-            return new Holder(view);
+            return new Holder(view,listener,type);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_footer, parent, false);
             return new FooterViewHolder(view);
@@ -152,22 +160,35 @@ public class NewsAdapter<T> extends RecyclerView.Adapter {
         ((Holder)holder).cnBetaDesc.setText("        " + guoKeItem.getSummary());
     }
 
-    static class Holder extends RecyclerView.ViewHolder {
+     static class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView newsImag;
         private TextView cnBetaTitle;
         private TextView cnBetaDesc;
         private TextView newsDate;
         private TextView zhihuTitle;
+        private RelativeLayout rl;
+        private OnItemClickListener itemListener;
+         private String itemType;
 
-        public Holder(View view) {
+        public Holder(View view,OnItemClickListener itemListener,String type) {
             super(view);
-
+            itemType = type;
+            this.itemListener = itemListener;
+            rl = (RelativeLayout) view.findViewById(R.id.rl_item);
+            rl.setOnClickListener(this);
             newsImag = (ImageView) view.findViewById(R.id.iv_news_img);
             cnBetaTitle = (TextView) view.findViewById(R.id.tv_cnBeta_title);
             cnBetaDesc = (TextView) view.findViewById(R.id.tv_cnBeta_desc);
             newsDate = (TextView) view.findViewById(R.id.tv_news_date);
 
             zhihuTitle = (TextView) view.findViewById(R.id.tv_zhihu_title);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (itemListener != null) {
+                itemListener.onItemClick(itemType,getLayoutPosition());
+            }
         }
     }
 
