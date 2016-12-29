@@ -38,7 +38,7 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
     private List<TouTiaoItem> touTiaoItems = new ArrayList<>();
     private List<GuoKeItem> guoKeItems = new ArrayList<>();
 
-    private View view,footerView;
+    private View view;
     private String type;
     private boolean isLoading;
     private int lastVisibleItem,totalItemCount;
@@ -59,7 +59,6 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
     }
 
     private void init(View view,String type){
-        footerView = View.inflate(getActivity(),R.layout.recyclerview_footer,null);
         recyclerView = (RecyclerView) view.findViewById(R.id.news_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_refresh_layout);

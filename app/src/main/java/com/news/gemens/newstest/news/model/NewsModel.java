@@ -1,5 +1,7 @@
 package com.news.gemens.newstest.news.model;
 
+import android.util.Log;
+
 import com.news.gemens.newstest.bean.CnBetaNewsList;
 import com.news.gemens.newstest.bean.GuokeList;
 import com.news.gemens.newstest.bean.TouTiaoList;
@@ -65,7 +67,8 @@ public class NewsModel {
         touTiaoListCall.enqueue(new Callback<TouTiaoList>() {
             @Override
             public void onResponse(Call<TouTiaoList> call, Response<TouTiaoList> response) {
-                callBack.onSuccess(response.body());
+                Log.d(TAG, "onResponse: " + response.body());
+                //callBack.onSuccess(response.body());
             }
 
             @Override
