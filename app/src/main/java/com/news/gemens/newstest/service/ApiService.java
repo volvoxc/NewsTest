@@ -29,6 +29,10 @@ public interface ApiService {
     @GET("/more")
     Call<CnBetaNewsList> getCnBetaList(@QueryMap Map<String, Object> params);
 
+    //根据sid获取cnBeta新闻数据
+    @GET()
+    Call<String> getCnBetaNewsContent(@Url String url);
+
 
     //知乎日报首页列表数据
     @GET()

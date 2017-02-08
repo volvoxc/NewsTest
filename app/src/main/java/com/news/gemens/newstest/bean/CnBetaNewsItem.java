@@ -10,6 +10,47 @@ public class CnBetaNewsItem {
     private String thumb;
     private String url_show;
     private String inputtime;
+    private String from;
+    private String content;
+    private String SN;
+    private int sid;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getSN() {
+        return SN;
+    }
+
+    public void setSN(String SN) {
+        this.SN = SN;
+    }
+
+    public CnBetaNewsItem(int sid, String title) {
+        this.sid = sid;
+        this.title = title;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
+    }
 
     public String getInputtime() {
         return inputtime;

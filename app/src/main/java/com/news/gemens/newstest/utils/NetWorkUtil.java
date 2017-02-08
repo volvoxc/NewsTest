@@ -1,5 +1,10 @@
 package com.news.gemens.newstest.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
+import com.news.gemens.newstest.main.MyApplication;
 import com.news.gemens.newstest.service.ApiService;
 
 import retrofit2.Retrofit;
@@ -35,5 +40,14 @@ public class NetWorkUtil {
 
     public ApiService getApiService() {
         return retrofit.create(ApiService.class);
+    }
+
+
+    public static boolean isWifiConnected() {
+        ConnectivityManager cm = (ConnectivityManager) MyApplication.getInstance()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkINfo = cm.getActiveNetworkInfo();
+        return networkINfo != null
+                && networkINfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 }

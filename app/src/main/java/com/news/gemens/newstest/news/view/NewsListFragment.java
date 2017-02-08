@@ -72,28 +72,28 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
         switch (type) {
             case "头条":
                 if (touTiaoAdapter == null)
-                    touTiaoAdapter = new NewsAdapter(getActivity(),touTiaoItems,"头条",this);
+                    touTiaoAdapter = new NewsAdapter<>(getActivity(),touTiaoItems,"头条",this);
                 recyclerView.setAdapter(touTiaoAdapter);
                 newsPresenter.refreshTouTiaoList();
                 recyclerView.addOnScrollListener(new ScrollListener("头条"));
                 break;
             case "cnBeta":
                 if (cnBetaAdapter == null)
-                    cnBetaAdapter = new NewsAdapter(getActivity(),cnBetaNewsItems,"cnBeta",this);
+                    cnBetaAdapter = new NewsAdapter<>(getActivity(),cnBetaNewsItems,"cnBeta",this);
                 recyclerView.setAdapter(cnBetaAdapter);
                 newsPresenter.refreshCnBetaNewsList();
                 recyclerView.addOnScrollListener(new ScrollListener("cnBeta"));
                 break;
             case "知乎日报":
                 if (zhiHuAdapter == null)
-                    zhiHuAdapter = new NewsAdapter(getActivity(),zhiHuItems,"知乎日报",this);
+                    zhiHuAdapter = new NewsAdapter<>(getActivity(),zhiHuItems,"知乎日报",this);
                 recyclerView.setAdapter(zhiHuAdapter);
                 newsPresenter.refreshZhiHuList();
                 recyclerView.addOnScrollListener(new ScrollListener("知乎日报"));
                 break;
             case "果壳精选":
                 if (guoKeAdapter == null)
-                    guoKeAdapter = new NewsAdapter(getActivity(),guoKeItems,"果壳精选",this);
+                    guoKeAdapter = new NewsAdapter<>(getActivity(),guoKeItems,"果壳精选",this);
                 recyclerView.setAdapter(guoKeAdapter);
                 newsPresenter.getGuoKeList();
                 break;
@@ -238,11 +238,17 @@ public class NewsListFragment extends Fragment implements NewsListFragmentView,S
                 startActivity(intent);
                 break;
             case "cnBeta":
-                String cnBetaUrl = "http://www.cnbeta.com" + cnBetaNewsItems.get(position).getUrl_show();
-                intent.putExtra("newsUrl",cnBetaUrl);
-                intent.putExtra("title",cnBetaNewsItems.get(position).getTitle());
-                intent.putExtra("pic",cnBetaNewsItems.get(position).getThumb());
-                startActivity(intent);
+//                String cnBetaUrl = "http://www.cnbeta.com" + cnBetaNewsItems.get(position).getUrl_show();
+//                intent.putExtra("newsUrl",cnBetaUrl);
+//                intent.putExtra("title",cnBetaNewsItems.get(position).getTitle());
+//                intent.putExtra("pic",cnBetaNewsItems.get(position).getThumb());
+//                startActivity(intent);
+
+                Intent cnBeateIntent = new Intent(getActivity(),CnbetaDetailActivity.class);
+                cnBeateIntent.putExtra("sid",cnBetaNewsItems.get(position).getSid());
+                cnBeateIntent.putExtra("title",cnBetaNewsItems.get(position).getTitle());
+                startActivity(cnBeateIntent);
+
                 break;
             case "知乎日报":
                 String zhiHuUrl = Constant.ZHIHU_CONTENT + zhiHuItems.get(position).getId();
