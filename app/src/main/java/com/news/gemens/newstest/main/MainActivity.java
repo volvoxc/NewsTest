@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
 
         switchToNews();
-        //hahhahahahha
+        hahhahahahha
     }
 
     private void init() {
